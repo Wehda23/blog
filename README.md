@@ -6,16 +6,15 @@
 
 🛠️ We will be using:
 
-- Python
-- ![Django](https://img.icons8.com/color/48/000000/django.png) Django
-- ![Django Rest Framework](https://img.icons8.com/color/48/000000/api-settings.png) Django Rest Framework
+- ![Python](https://img.shields.io/badge/Python%20-%2314354C.svg?style=for-the-badge&logo=python&logoColor=white)
+- ![Django](https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=green)
+- ![Django Rest API Framework](https://img.shields.io/badge/django%20rest-ff1709?style=for-the-badge&logo=django&logoColor=white)
 
 🔍 Database:
 
-- ![SQLite](https://img.icons8.com/color/48/000000/sqlite.png) SQLite
-- ![MongoDB](https://img.icons8.com/color/48/000000/mongodb.png) MongoDB (Optional)
+- ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
+- ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white) (Optional)
 
 🧪 We will use both:
 
-- Automated unit testing
-- ![Postman](https://img.icons8.com/dusk/64/000000/postman-api.png) Postman for API testing
+- ![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=Postman&logoColor=white)
