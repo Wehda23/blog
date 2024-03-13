@@ -33,6 +33,8 @@ DEBUG = True if env("DEBUG") == "True" else False
 ALLOWED_HOSTS = ["*"]
 
 
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "user_authentication.apps.UserAuthenticationConfig",
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt",
@@ -77,6 +80,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "project_blog.wsgi.application"
+
+
+# User Authentication Model
+AUTH_USER_MODEL = "user_authentication.User"
 
 # Authentication classes
 REST_FRAMEWORK = {
