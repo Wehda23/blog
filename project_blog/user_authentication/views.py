@@ -5,6 +5,7 @@ This File contains API View classes & functions:-
     RegisterView (APIView): Is a class view for account registeration.
     RefreshTokenView (@api_view): Is an API view for  token refreshment.
 """
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -17,6 +18,7 @@ from .serializer import (
     LogoutSerializer,
 )
 from .refresh_token import IsRefreshToken, get_tokens_for_user
+from .models import User
 from rest_framework.permissions import BasePermission
 from typing import Self
 
@@ -70,7 +72,17 @@ class LogoutView(APIView):
         Returns:
             - Response.
         """
-        pass
+        # Serializer
+        serializer: LogoutSerializer = self.serializer_class(data=request.data)
+        # Check if data is valid
+        if serializer.is_valid():
+            # Add token to black list
+            token: str = serializer.validated_data['refresh_token']
+            # Black list the token
+            RefreshToken(token).blacklist()
+            return Response('User has been logged out.', status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class RegisterView(APIView):
     """Class for Registering a new user account"""
@@ -87,7 +99,16 @@ class RegisterView(APIView):
         Returns:
             - Response.
         """
-        pass
+        # Serializer
+        serializer: RegisterationSerializer = RegisterationSerializer(data=request.data)
+        # Validate the data
+        if serializer.is_valid():
+            # Register user using .save() method that will trigger .create() if user instance does not exist.
+            user: User = serializer.save()
+            # Return Response User Creation was Successful
+            return Response("User account was successfully created.!", status=status.HTTP_201_CREATED)
+        # Incase of error
+        return Response(serializer.errors, status=status.HTTP_403_FAILED)
 
 # Refresh token API View
 @api_view(["POST"])

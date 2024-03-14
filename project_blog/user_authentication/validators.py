@@ -10,9 +10,16 @@ import re
 from typing import Self
 
 class Validator(ABC):
-    def __init__(self: Self, data: str, error: object):
+    def __init__(self: Self, data: str, error: Exception = Exception):
+        """
+        Initiate class instance
+
+        Args:
+            - data (str): input that should run through validation.
+            - error (Exception | Object): Class Object that should raise as Exception or handles error (default: Exception).
+        """
         self.data: str = data
-        self.error: object = error
+        self.error: Exception = error
 
     @abstractmethod
     def validate(self: Self) -> bool:
