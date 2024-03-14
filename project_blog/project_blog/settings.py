@@ -33,8 +33,6 @@ DEBUG = True if env("DEBUG") == "True" else False
 ALLOWED_HOSTS = ["*"]
 
 
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -45,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "user_authentication.apps.UserAuthenticationConfig",
+    "blog.apps.BlogConfig",
     "corsheaders",
     "rest_framework",
     'rest_framework_simplejwt.token_blacklist',
