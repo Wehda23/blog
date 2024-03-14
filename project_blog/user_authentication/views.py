@@ -89,7 +89,8 @@ class LogoutView(APIView):
             # Grab the refresh_token
             token: str = serializer.validated_data['refresh_token']
             # Black list the token
-            RefreshToken(token).blacklist()
+            refresh_token: RefreshToken = RefreshToken(token)
+            refresh_token.blacklist()
             return Response('User has been logged out.', status=status.HTTP_200_OK)
         # Return Error Response
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -119,7 +120,7 @@ class RegisterView(APIView):
             # Return Response User Creation was Successful
             return Response("User account was successfully created.!", status=status.HTTP_201_CREATED)
         # Incase of error
-        return Response(serializer.errors, status=status.HTTP_403_FAILED)
+        return Response(serializer.errors, status=status.HTTP_403_FORBIDDEN)
 
 # Protected View
 # Refresh token API View

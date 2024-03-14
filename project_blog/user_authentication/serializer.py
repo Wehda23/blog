@@ -102,12 +102,13 @@ class LoginSerializer(serializers.ModelSerializer):
 class RegisterationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "email", "password")
+        fields = ("first_name", "last_name", "email", "password", "username")
         extra_kwargs: dict = {
             "password": {"write_only": True, "required": True},
             "email": {"required": True},
             "first_name": {"required": True},
             "last_name": {"required": True},
+            "username": {"required": True},
         }
     # Validators.
     def validate_first_name(self: Self, value: str) -> str:
