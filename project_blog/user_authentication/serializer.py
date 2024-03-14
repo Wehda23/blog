@@ -179,6 +179,8 @@ class LogoutSerializer(serializers.Serializer):
             raise serializers.ValidationError(e)
         except Exception as e:
             # Other wise raise ValidationError for token.
-            raise serializers.ValidationError(e)
+            # Log the error to the system for a follow up to the situation using a logger.
+            # logger.error(f"An unexpected error occurred while trying to authenticate Refresh Token: {e}")
+            raise serializers.ValidationError("Unexpected Error had occured.")
         
         
