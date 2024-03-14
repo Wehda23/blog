@@ -1,3 +1,7 @@
+"""
+File that contains General Permission CLasses:-
+    - IsActiveUser (BasePermission): Is a class that validates if a user is active or not.
+"""
 from rest_framework.permissions import BasePermission
 from django.contrib.auth.models import AnonymousUser
 from typing import Self

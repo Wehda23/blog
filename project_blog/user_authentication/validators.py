@@ -1,3 +1,10 @@
+"""
+File that contains validation classess:-
+    - Validator (ABC): An Abstract Class.
+    - EmailValidator (Validator): Is Class used to validate Email Address.
+    - NameValidator (Validator): Is a Class used to validate names.
+    - PasswordValidator(Validator): Is a Class used to validate passwords by length & format.
+"""
 from abc import ABC, abstractmethod
 import re
 from typing import Self

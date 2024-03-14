@@ -1,3 +1,8 @@
+"""
+File that contains Classes & Functions Related to Refresh Token:-
+    - get_token_for_user (function): A function used to generate access & refresh token for a user.
+    - IsRefreshToken (BasePermission): Is a class used to validate a refresh token and acts a Permission Class.
+"""
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import BasePermission
 from .models import User
