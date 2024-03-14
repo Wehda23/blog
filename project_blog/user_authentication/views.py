@@ -1,9 +1,17 @@
 """
 This File contains API View classes & functions:-
-    LoginView (APIView): Is a class for Login/Password Reset.
-    LogoutView (APIView): Is a class for Logout of an authenticated user.
-    RegisterView (APIView): Is a class view for account registeration.
-    RefreshTokenView (@api_view): Is an API view for  token refreshment.
+    - LoginView (APIView): Is a class for Login/Password Reset.
+    - LogoutView (APIView): Is a class for Logout of an authenticated user.
+    - RegisterView (APIView): Is a class view for account registeration.
+    - RefreshTokenView (@api_view): Is an API view for  token refreshment.
+
+Protected API Views:
+    - LogoutView Protected by (IsAuthenticated) class Permissions.
+    - LoginView Protected by (IsActive) class Permissions.
+    - RefreshTokenView Protected by (IsRefreshToken) class Permissions.
+    
+Unprotected API Views:
+    - Registeration View.
 """
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -23,6 +31,7 @@ from rest_framework.permissions import BasePermission
 from typing import Self
 
 
+# Protected View
 class LoginView(APIView):
     """
     This view will be used for the purpose of a user to Login/Reset Password.
@@ -55,6 +64,7 @@ class LoginView(APIView):
         # Return Error
         return Response(user_serializer.errors, status=status.HTTP_404_NOT_FOUND);
 
+# Protected View
 class LogoutView(APIView):
     """Class for User Logout"""
     # Set a serializer for the API View
@@ -70,19 +80,20 @@ class LogoutView(APIView):
             - request (object): Object that contains refresh_token to add to blacklist.
         
         Returns:
-            - Response.
+            - Response HTTP 200 ok in case of success or 400 Bad Request in case of failure to logout.
         """
         # Serializer
         serializer: LogoutSerializer = self.serializer_class(data=request.data)
         # Check if data is valid
         if serializer.is_valid():
-            # Add token to black list
+            # Grab the refresh_token
             token: str = serializer.validated_data['refresh_token']
             # Black list the token
             RefreshToken(token).blacklist()
             return Response('User has been logged out.', status=status.HTTP_200_OK)
-        
+        # Return Error Response
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class RegisterView(APIView):
     """Class for Registering a new user account"""
@@ -97,7 +108,7 @@ class RegisterView(APIView):
             - request (object): Object that contains details require for registering a new account.
         
         Returns:
-            - Response.
+            - Response HTTP 201 created or HTTP 403 FAILED in case if registeration failure.
         """
         # Serializer
         serializer: RegisterationSerializer = RegisterationSerializer(data=request.data)
@@ -110,6 +121,7 @@ class RegisterView(APIView):
         # Incase of error
         return Response(serializer.errors, status=status.HTTP_403_FAILED)
 
+# Protected View
 # Refresh token API View
 @api_view(["POST"])
 @permission_classes([IsRefreshToken])
