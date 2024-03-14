@@ -52,15 +52,15 @@ class IsRefreshToken(BasePermission):
         except Exception as e:
             return False
 
-    def has_permission(self, request, view) -> bool:
+    def has_permission(self: Self, request: object, view: object) -> bool:
         """Method used to check refresh token"""
         # Grab the data
         data: dict = request.data
         # Check if "Refresh" Key exists within data or not.
-        if "refresh" not in data:
+        if "refresh_token" not in data:
             return False
         # Grab The Refresh Token
-        refresh_token: str = request.data["refresh"]
+        refresh_token: str = request.data["refresh_token"]
         # Validate Refresh Token
         decoded_token = self.is_refresh_token_valid(refresh_token)
         # If Token was None just return False

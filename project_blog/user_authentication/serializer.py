@@ -13,6 +13,7 @@ Notes:
     Practicall a serializer takes a class and returns the __dict__ of the class.
 """
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework import serializers
 from .models import User
 from .refresh_token import get_tokens_for_user
@@ -173,8 +174,11 @@ class LogoutSerializer(serializers.Serializer):
         try: 
             RefreshToken(token)
             return token
-        except:
+        except TokenError as e:
+            # Other wise raise Token validation error for token.
+            raise serializers.ValidationError(e)
+        except Exception as e:
             # Other wise raise ValidationError for token.
-            raise serializers.ValidationError("Invalid Refresh Token.")
+            raise serializers.ValidationError(e)
         
         
