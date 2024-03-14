@@ -137,6 +137,17 @@ class RegisterationSerializer(serializers.ModelSerializer):
         PasswordValidator(value, serializers.ValidationError).validate()
         return value
 
+    def validate_username(self: Self, value: str) -> str:
+        """Method to check username exists or not to avoid Erros"""
+        # Check if username is empty or not.
+        if not value:
+            raise serializers.ValidationError("Username can not be an empty!")
+        # Check if username exists
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError("Username already exists.")
+        # Return the value
+        return value
+
     def validate(self: Self, attrs: dict) -> dict:
         """Method used to validate registeration of a new patient account"""
         # Need to check if there is not another user already with same email
@@ -155,7 +166,7 @@ class RegisterationSerializer(serializers.ModelSerializer):
 
         Args:
             - validated_data (dict): Dictionary that contains validated data required to create new user.
-        
+
         Returns:
             - New created user as a User Model Instance.
         """
