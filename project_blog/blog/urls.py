@@ -11,5 +11,5 @@ urlpatterns = [
     # View to create a post.
     path("create", PostCreationView.as_view(), name="create-post-view"),
     # View to Update or delete an existing post.
-    path("<pk:str>", PostModificationView.as_view(), name="update-delete-post"),
+    path("<str:pk>", PostModificationView.as_view(), name="update-delete-post"),
 ]

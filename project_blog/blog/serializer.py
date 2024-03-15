@@ -79,10 +79,10 @@ class PostCreateSerializer(serializers.Serializer):
         return post
 
 class PostModificationSerializer(serializers.Serializer):
-    id = serializers.UUIDField(read_only=True)
+    id = serializers.UUIDField(required=True)
     title = serializers.CharField(max_length=200, required=True)
     content = serializers.CharField(required=True)
-    author = serializers.DictField(read_only=True, required=True)
+    author = serializers.DictField(required=True)
 
     # We will add another layer of protection incase if some one remove IsAuthor Permission in permission_classess
     def validate_id(self: Self, value: str) -> str:
