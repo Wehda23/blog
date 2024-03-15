@@ -107,6 +107,15 @@ class PostModificationView(APIView):
     def delete(self: Self, request: Request, pk: str, *args, **kwargs) -> Response:
         """
         Method used to delete existing posts.
+
+        Args:
+            - request (Request): Object that include user needed to verify for deletion process.
+            - pk (UUID): UUID used to delete the post
+
+        Returns:    
+            - Response (Response): 204 No content in case of deletion successfull otherwise\
+                    Post does not exists 404 status code or\
+                    Unauthorized action detected status code 403 Forbidden.
         """
         # Get the instance of the object based on primary key
         post: Post = Post.objects.filter(id=pk).first()
@@ -116,7 +125,7 @@ class PostModificationView(APIView):
         # Check the post owner to the request user
         if request.user != post.author:
             # Can black list user or block
-            return Response("Aunthorized action detected.", status=status.HTTP_403_FORBIDDEN)
+            return Response("Unauthorized action detected.", status=status.HTTP_403_FORBIDDEN)
         # Delete the object from database
         post.delete()
         return Response("Post deleted successfully", status=status.HTTP_204_NO_CONTENT)
