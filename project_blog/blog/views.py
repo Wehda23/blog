@@ -27,6 +27,7 @@ from .permissions import IsAuthor
 from .models import Post
 from typing import Self
 import json
+import uuid
 
 
 class PostCreationView(APIView):
@@ -73,13 +74,13 @@ class PostModificationView(APIView):
     permission_classes: tuple[BasePermission] = (IsAuthenticated, IsActiveUser, IsAuthor)
 
     # API post method to update new post
-    def put(self: Self, request: Request, pk: str, *args, **kwargs) -> Response:
+    def put(self: Self, request: Request, pk: uuid, *args, **kwargs) -> Response:
         """
         Method used to act as PUT API method to update post
 
         Args:
             - request (Request): Object that contain details related to API Request.
-            - pk (str): is uuid of the post requested to apply modifications to.
+            - pk (uuid): is uuid of the post requested to apply modifications to.
 
         Returns:
             -  Response (Response): With message of Successfully updated post status code 200 OK.\
@@ -104,13 +105,13 @@ class PostModificationView(APIView):
         return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
 
     # API  Method to delete the existing post
-    def delete(self: Self, request: Request, pk: str, *args, **kwargs) -> Response:
+    def delete(self: Self, request: Request, pk: uuid, *args, **kwargs) -> Response:
         """
         Method used to delete existing posts.
 
         Args:
             - request (Request): Object that include user needed to verify for deletion process.
-            - pk (UUID): UUID used to delete the post
+            - pk (uuid): UUID used to delete the post
 
         Returns:    
             - Response (Response): 204 No content in case of deletion successfull otherwise\
