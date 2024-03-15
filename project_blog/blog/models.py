@@ -1,6 +1,7 @@
 """
 File that contains Model classes for the API:-
-
+    - Post (models.Model): Model Class that represents Post and it's attributes\
+            Post contains foreign key with user related_name "posts".
 """
 from django.db import models
 from django.utils.text import slugify
