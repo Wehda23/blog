@@ -95,7 +95,7 @@ class PostModificationSerializer(serializers.Serializer):
         if uuid != value:
             # We can black list request sender here
             # or just send this message
-            raise serializers.ValidationError("Unauthorized  action detected.")
+            raise serializers.ValidationError("Unauthorized action detected.")
         return value
 
     def validate_author(self, value: dict) -> dict:
@@ -111,7 +111,7 @@ class PostModificationSerializer(serializers.Serializer):
         if value['email'] != user.email:
             # You can add this user to a black list for attempting such action
             # Or just return  an error message like below
-            raise serializers.ValidationError("Unauthorized  action detected.")
+            raise serializers.ValidationError("Unauthorized action detected.")
         # Return value
         return value
 
@@ -154,7 +154,7 @@ class PostModificationSerializer(serializers.Serializer):
         # Compare user of the post to that of request sender.
         if not post.author == user:
             # Unauthorized action can add user in blacklist
-            raise serializers.ValidationError("Unauthorized  action detected.")
+            raise serializers.ValidationError("Unauthorized action detected.")
         # assign post to self.instance
         self.instance: Post = post
         return attr

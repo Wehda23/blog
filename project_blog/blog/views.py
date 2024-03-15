@@ -98,7 +98,7 @@ class PostModificationView(APIView):
             serializer.save()
             return Response("Post Updated successfully", status=status.HTTP_202_ACCEPTED)
         # in case of Unauthurized action
-        if "Unauthorized  action detected." in json.dumps(serializer.errors):
+        if "Unauthorized action detected." in json.dumps(serializer.errors):
             return Response(serializer.errors, status=status.HTTP_403_FORBIDDEN)
         # Error
         return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
