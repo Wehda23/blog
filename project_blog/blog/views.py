@@ -128,4 +128,8 @@ class PostsListView(APIView):
 
     def get(self: Self, request: Request, *args, **kwargs) -> Response:
         """Get  Method for List of all the posts"""
-        pass
+        # Grab all posts
+        posts: Post = Post.objects.all()
+        # Serialize the queryset
+        serializer: PostSerializer = PostSerializer(posts, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
