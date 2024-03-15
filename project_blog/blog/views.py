@@ -24,7 +24,9 @@ from .serializer import (
     PostCreateSerializer,
 )
 from .permissions import IsAuthor
+from .models import Post
 from typing import Self
+import json
 
 
 class PostCreationView(APIView):
@@ -72,11 +74,52 @@ class PostModificationView(APIView):
 
     # API post method to update new post
     def put(self: Self, request: Request, pk: str, *args, **kwargs) -> Response:
-        pass
-    
+        """
+        Method used to act as PUT API method to update post
+
+        Args:
+            - request (Request): Object that contain details related to API Request.
+            - pk (str): is uuid of the post requested to apply modifications to.
+
+        Returns:
+            -  Response (Response): With message of Successfully updated post status code 200 OK.\
+                 Or Error Message status code 400 Bad request.
+                 Or error message status 403 Forbidden for unauthorized actions.
+        """
+        # Save context in a variable
+        context: dict = {"author": request.user, "post_id": pk}
+        # Serializer
+        serializer: PostModificationSerializer = self.serializer_class(
+            data= request.data, context= context
+        )
+        # Validate data
+        if serializer.is_valid():
+            # Update the existing post with validated data
+            serializer.save()
+            return Response("Post Updated successfully", status=status.HTTP_202_ACCEPTED)
+        # in case of Unauthurized action
+        if "Unauthorized  action detected." in json.dumps(serializer.errors):
+            return Response(serializer.errors, status=status.HTTP_403_FORBIDDEN)
+        # Error
+        return Response(serializer.errors, status= status.HTTP_400_BAD_REQUEST)
+
     # API  Method to delete the existing post
-    def delete(self: Self, request: Request, pk:str, *args, **kwargs) -> Response:
-        pass
+    def delete(self: Self, request: Request, pk: str, *args, **kwargs) -> Response:
+        """
+        Method used to delete existing posts.
+        """
+        # Get the instance of the object based on primary key
+        post: Post = Post.objects.filter(id=pk).first()
+        # Check if post exists
+        if not post:
+            return Response("Post does not exist", status=status.HTTP_404_NOT_FOUND)
+        # Check the post owner to the request user
+        if request.user != post.author:
+            # Can black list user or block
+            return Response("Aunthorized action detected.", status=status.HTTP_403_FORBIDDEN)
+        # Delete the object from database
+        post.delete()
+        return Response("Post deleted successfully", status=status.HTTP_204_NO_CONTENT)
 
 class PostsListView(APIView):
     """Class to list posts"""

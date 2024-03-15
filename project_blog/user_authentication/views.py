@@ -15,6 +15,7 @@ Unprotected API Views:
 """
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
+from rest_framework.request import Request
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
@@ -44,7 +45,7 @@ class LoginView(APIView):
     # Add class attribute  which specifies that this view is only accessible if the user is an active user or not.
     permission_classes: tuple[BasePermission] = (IsActiveUser,)
 
-    def post(self: Self, request: object, *args, **kwargs) -> Response:
+    def post(self: Self, request: Request, *args, **kwargs) -> Response:
         """
         Post API view that is concerned with user login to obtain a new Token in case of success.
 
@@ -72,7 +73,7 @@ class LogoutView(APIView):
     # Add class attribute  which specifies that this view is only accessible if the user is an active user or not.
     permission_classes: tuple[BasePermission] = (IsAuthenticated,)
 
-    def post(self: Self, request: object, *args, **kwargs) -> Response:
+    def post(self: Self, request: Request, *args, **kwargs) -> Response:
         """
         Post method to logout user.
 
@@ -101,7 +102,7 @@ class RegisterView(APIView):
     # Set a serializer for the API View
     serializer_class: RegisterationSerializer = RegisterationSerializer
 
-    def post(self: Self, request: object, *args, **kwargs) -> Response:
+    def post(self: Self, request: Request, *args, **kwargs) -> Response:
         """
         Post method to register a new user account
 
@@ -126,7 +127,7 @@ class RegisterView(APIView):
 # Refresh token API View
 @api_view(["POST"])
 @permission_classes([IsRefreshToken])
-def refresh_token_view(request: object, *args, **kwargs) -> Response:
+def refresh_token_view(request: Request, *args, **kwargs) -> Response:
     """
     Function that represents a refresh token API View
 
